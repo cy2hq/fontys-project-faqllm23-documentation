@@ -1,84 +1,78 @@
-# Documents
+#Documents 
+
 ```mermaid
 erDiagram
 
-Pipeline ||--o{ DocumentSource_Pipeline : "used by"
-DocumentSource_Pipeline }o--|| DocumentSource: is
+pipeline ||--o{ documentsource_pipeline : ""
+documentsource_pipeline }o--|| documentsource: ""
 
-Pipeline ||--o{ LLM_Pipeline : "used by"
-LLM_Pipeline }o--|| LLM: is
+accesstoken ||--o{ accesstoken_organisation : ""
+accesstoken_organisation }o--|| organisation: ""
 
-Accesstoken ||--o{ Accesstoken_Organisation : provides
-Accesstoken_Organisation }o--|| Organisation: "has"
+pipeline ||--o{ organisation_pipeline : ""
+organisation_pipeline }o--|| organisation: ""
 
-Pipeline ||--o{ Organisation_Pipeline : "part of"
-Organisation_Pipeline }o--|| Organisation: "has"
+user ||--o{ organisation_user : ""
+organisation_user }o--|| organisation: ""
 
-User ||--o{ Organisation_User : "member of"
-Organisation_User }o--|| Organisation: "has"
+llm ||--|| pipeline : ""
 
 
-Organisation {
-    series ID PK
+organisation {
+    series id PK
     varchar name
     timestamp join_date
 }
 
-User {
-    series ID PK
+user {
+    string id PK
 }
 
-Accesstoken {
-    series ID PK
-    string token
+accesstoken {
+    series id PK
+    string hashed_token
     timestamp issue_date
     timestamp expiration_date
 }
 
-DocumentSource {
-    series ID PK
+documentsource {
+    series id PK
     JSON config
     enum type
 }
 
-LLM {
-    series ID PK
-    JSON config
-    enum type
-}
-
-Pipeline {
-    series ID PK
+pipeline {
+    series id PK
+    int llm_id FK
     varchar name
 }
 
-DocumentSource_Pipeline {
-    series ID PK
-    series DocumentSource_ID FK
-    series Organisation_ID FK
-}
-
-LLM_Pipeline {
-    series ID PK
-    series LLM_ID FK
-    series Organisation_ID FK
-}
-
-Organisation_User {
-    series userID
-    series organisationID
-}
-
-Accesstoken_Organisation {
+llm {
     series id PK
-    series Accesstoken_id FK
-    series Pipeline_id FK
+    JSON config
+    enum type
 }
 
-Organisation_Pipeline {
+documentsource_pipeline {
     series id PK
-    series Organisation_ID FK
-    series Pipeline_ID FK
+    int document_source_id FK
+    int pipeline_id FK
 }
 
+organisation_user { 
+    series id FK
+    int user_id FK
+    int organisationid FK
+}
+
+accesstoken_organisation {
+    series id PK
+    int accesstoken_id FK
+}
+
+organisation_pipeline {
+    series id PK
+    int organisation_id FK
+    int pipeline_id FK
+}
 ```
