@@ -1,5 +1,6 @@
 # Documents 
 
+
 ```mermaid
 erDiagram
 
@@ -60,9 +61,9 @@ documentsource_pipeline {
 }
 
 organisation_user { 
-    series id FK
+    series id PK
     int user_id FK
-    int organisationid FK
+    int organisation_id FK
 }
 
 accesstoken_organisation {
