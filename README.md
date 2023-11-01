@@ -1,20 +1,20 @@
-# Documents 
+# Documents
 
 
 ```mermaid
 erDiagram
 
-pipeline ||--o{ documentsource_pipeline : ""
-documentsource_pipeline }o--|| documentsource: ""
+pipeline ||--|{ documentsource_pipeline : ""
+documentsource_pipeline }|--|| documentsource: ""
 
-accesstoken ||--o{ accesstoken_organisation : ""
-accesstoken_organisation }o--|| organisation: ""
+accesstoken ||--|{ accesstoken_organisation : ""
+accesstoken_organisation }|--|| organisation: ""
 
-pipeline ||--o{ organisation_pipeline : ""
-organisation_pipeline }o--|| organisation: ""
+pipeline ||--|{ organisation_pipeline : ""
+organisation_pipeline }|--|| organisation: ""
 
-user ||--o{ organisation_user : ""
-organisation_user }o--|| organisation: ""
+user ||--|{ organisation_user : ""
+organisation_user }|--|| organisation: ""
 
 llm ||--|| pipeline : ""
 
