@@ -1,82 +1,82 @@
-## <center>CY2 FAQ System ERD V0.1</center>
-
 ```mermaid
 erDiagram
-
-pipeline ||--|{ documentsource_pipeline : ""
-documentsource_pipeline }o--|| documentsource: ""
-organisation ||--o{ pipeline: ""
-documentsource }o--|| organisation: ""
-llm }o--|| organisation: ""
-
-accesstoken }o--|| organisation: ""
-user ||--o{ accesstoken: ""  
-
-user ||--o{ organisation_user : ""
-
-organisation_user }o--|| organisation: ""
-
-llm ||--|| pipeline : ""
-
-organisation {
-    series id PK
-    varchar name
-    timestamp join_date
+"Llm" {
+    Int id PK
+    String name
+    DateTime createdAt
+    Json config
+    llm_type type
+    Int organisationId FK
 }
-
-user {
-    string id PK
+"DocumentSourceSharepoint" {
+    Int id PK
+    String tenantId
+    String clientId
+    String clientSecret
+    String sharepointUrl
 }
-
-accesstoken {
-    series id PK
-    int user_id FK
-    int organisation_id FK
-    string hashed_token
-    timestamp issue_date
-    timestamp expiration_date
+"DocumentSourceFTP" {
+    Int id PK
+    String host
+    Int port
+    String username
+    String password
 }
-
-documentsource {
-    series id PK
-    int organisation_id FK
-    JSON config
-    enum type
+"Pipeline" {
+    Int id PK
+    DateTime createdAt
+    String name
+    String description "nullable"
+    Boolean active
+    Int organisationId FK
+    Int llmId FK "nullable"
 }
-
-pipeline {
-    series id PK
-    int organisation_id FK
-    int llm_id FK
-    varchar name
+"DocumentSourcesOnPipeline" {
+    Int PipelineId FK
+    Int DocumentSourceId FK
 }
-
-llm {
-    series id PK
-    int organisation_id FK
-    JSON config
-    enum type
+"DocumentSource" {
+    Int id PK
+    DateTime createdAt
+    String name
+    documentsource_type configType
+    Int organisationId FK "nullable"
+    Int documentSourceSharepointId FK "nullable"
+    Int documentSourceFTPId FK "nullable"
 }
-
-documentsource_pipeline {
-    int document_source_id FK
-    int pipeline_id FK
+"Organisation" {
+    Int id PK
+    String name UK
+    DateTime createdAt
+    Boolean active
 }
-
-organisation_user { 
-    series id PK
-    int user_id FK
-    int organisation_id FK
+"UsersInOrganisations" {
+    String userId FK
+    Int organisationId FK
 }
+"Accesstoken" {
+    Int id PK
+    String name
+    String hashedToken
+    String displayToken
+    DateTime issueDate
+    DateTime expirationDate "nullable"
+    String userId FK
+    Int organisationId FK
+}
+"User" {
+    String id PK
+}
+"Llm" }o--|| "Organisation" : Organisation
+"Pipeline" }o--|| "Organisation" : Organisation
+"Pipeline" }o--|| "Llm" : LLM
+"DocumentSourcesOnPipeline" }o--|| "Pipeline" : Pipeline
+"DocumentSourcesOnPipeline" }o--|| "DocumentSource" : DocumentSource
+"DocumentSource" }o--|| "Organisation" : Organisation
+"DocumentSource" }o--|| "DocumentSourceSharepoint" : DocumentSourceSharepoint
+"DocumentSource" }o--|| "DocumentSourceFTP" : DocumentSourceFTP
+"UsersInOrganisations" }o--|| "User" : User
+"UsersInOrganisations" }o--|| "Organisation" : Organisation
+"Accesstoken" }o--|| "User" : User
+"Accesstoken" }o--|| "Organisation" : Organisation
 ```
-
-<!-- accesstoken_organisation {
-    series id PK
-    int accesstoken_id FK
-    int organisation_id FK
-} 
-
-accesstoken ||--|{ accesstoken_organisation : ""
-accesstoken_organisation }|--|| organisation: ""
-
--->
