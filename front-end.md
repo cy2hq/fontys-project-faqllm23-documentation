@@ -19,16 +19,16 @@ Before setting up and running the project, ensure the following prerequisites ar
 
 1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/CY2Project/Frontend_v2.git
-    cd Frontend_v2
-    ```
+   ```bash
+   git clone https://github.com/CY2Project/Frontend_v2.git
+   cd Frontend_v2
+   ```
 
 2. Install dependencies:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 ### Development
 
@@ -66,25 +66,25 @@ This directory is used to store GitHub-related files and configurations.
 
 The /public directory contains static assets that need to be served directly, such as images, fonts, or HTML files. These files are not processed by build tools and are directly accessible to users.
 
-3. /src 
+3. /src
 
-    3.1. /assets
-    The /assets directory stores static assets used in the application, such as images, icons, or stylesheets. These assets are likely to be processed by build tools during the build process.
+   3.1. /assets
+   The /assets directory stores static assets used in the application, such as images, icons, or stylesheets. These assets are likely to be processed by build tools during the build process.
 
-    3.2. /components 
-    The /components directory contains React components. These components are modular, reusable pieces of the user interface that can be composed together to build pages or layouts.
+   3.2. /components
+   The /components directory contains React components. These components are modular, reusable pieces of the user interface that can be composed together to build pages or layouts.
 
-    3.3. /hooks
-    The /hooks directory contain custom React hooks. React hooks are functions that enable developers to use state and lifecycle features in functional components.
+   3.3. /hooks
+   The /hooks directory contain custom React hooks. React hooks are functions that enable developers to use state and lifecycle features in functional components.
 
-    3.4. /layouts
-    The /layouts directory contains higher-order components (HOCs) or layout components. These components define the overall structure or layout of pages in the application.
+   3.4. /layouts
+   The /layouts directory contains higher-order components (HOCs) or layout components. These components define the overall structure or layout of pages in the application.
 
-    3.5. /pages
-    The /pages directory contains React components that represent individual pages of the application. Each page is associated with a route.
+   3.5. /pages
+   The /pages directory contains React components that represent individual pages of the application. Each page is associated with a route.
 
-    3.6. /validation
-    The /validation directory contains code related to form validation or data validation in the application.
+   3.6. /validation
+   The /validation directory contains code related to form validation or data validation in the application.
 
 ### Summary:
 
@@ -101,7 +101,7 @@ The /public directory contains static assets that need to be served directly, su
 ## Technologies Used
 
 - React
-- TypeScript
+- JavaScript
 - bootstrap
 - reactstrap
 - sass
@@ -133,7 +133,6 @@ The .env file contains a series of values that the user will need to specify:
 - **REACT_APP_AUTHORITY_ID**: Tenant id from Azure.
 - **REACT_APP_CLIENT_SECRET**: Client secret from Azure.
 
-
 ## Usage
 
 ### Microsoft Authentication Library (MSAL) Configuration
@@ -150,10 +149,11 @@ The msalConfig object holds essential configurations required by MSAL:
 
 ```javascript
 export const msalConfig = {
-    clientId: process.env.REACT_APP_CLIENT_ID,
-    redirectUri: process.env.REACT_APP_REDIRECT_URI,
-    authority: 'https://login.microsoftonline.com/' + process.env.REACT_APP_AUTHORITY_ID,
-}
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  redirectUri: process.env.REACT_APP_REDIRECT_URI,
+  authority:
+    "https://login.microsoftonline.com/" + process.env.REACT_APP_AUTHORITY_ID,
+};
 ```
 
 This code can be found in /src/authConfig.js
@@ -164,16 +164,16 @@ The msalInstance function initializes and returns an instance of MSAL. It config
 
 ```javascript
 export const msalInstance = async () => {
-    const msalApp = new PublicClientApplication({
-        auth: msalConfig,
-        cache: {
-            cacheLocation: "sessionStorage",
-            storeAuthStateInCookie: true,
-        },
-    });
-    await msalApp.initialize();
-    return msalApp
-}
+  const msalApp = new PublicClientApplication({
+    auth: msalConfig,
+    cache: {
+      cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: true,
+    },
+  });
+  await msalApp.initialize();
+  return msalApp;
+};
 ```
 
 This code can be found in /src/authConfig.js
@@ -184,17 +184,16 @@ This function uses the active MSAL instance to get the active user account and r
 
 ```javascript
 export const getTokenClaims = async () => {
-    try {
-        const msal = msalInstance();
-        const account = (await msal).getActiveAccount();
-        if (!account) throw new Error('No accounts signed in.');
-        return account.idTokenClaims
-    } catch (error) {
-        console.error('Error acquiring token:', error);
-    }
-    return null
-}
-
+  try {
+    const msal = msalInstance();
+    const account = (await msal).getActiveAccount();
+    if (!account) throw new Error("No accounts signed in.");
+    return account.idTokenClaims;
+  } catch (error) {
+    console.error("Error acquiring token:", error);
+  }
+  return null;
+};
 ```
 
 This code can be found in /src/components/auth/GetToken.js
@@ -205,21 +204,20 @@ Similar to getTokenClaims, this function retrieves the active user account and r
 
 ```javascript
 export const getAccessToken = async () => {
-    try {
-        const msal = msalInstance()
-        
-        const account = (await msal).getActiveAccount();
-        if (!account) throw new Error('No accounts signed in.');
-        return account.idToken
-    } catch (error) {
-        console.error('Error acquiring token:', error);
-    }
-    return null
-}
+  try {
+    const msal = msalInstance();
+
+    const account = (await msal).getActiveAccount();
+    if (!account) throw new Error("No accounts signed in.");
+    return account.idToken;
+  } catch (error) {
+    console.error("Error acquiring token:", error);
+  }
+  return null;
+};
 ```
 
 This code can be found in /src/components/auth/GetToken.js
-
 
 #### Default Headers for Authenticated Requests
 
@@ -228,9 +226,9 @@ The defaultHeaders function sets up default headers for HTTP requests, including
 ```javascript
 const accessToken = await getAccessToken();
 const headers = {
-    headers: {
-        Authorization: `Bearer ${accessToken}`,
-    },
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+  },
 };
 return headers;
 ```
@@ -242,18 +240,21 @@ This code can be found in /src/components/auth/GetToken.js
 The RoleInstance and OrganizationInstance hooks play pivotal roles in managing user roles and organizational data within the application.
 
 #### RoleInstance
+
 The RoleInstance hook, encapsulated within the RoleContext, facilitates the handling of user roles.
 
-Upon component mount, the hook leverages Azure AD tokens to extract the user's role and an array of roles. 
+Upon component mount, the hook leverages Azure AD tokens to extract the user's role and an array of roles.
 
-The GetRole function ensures the dynamic retrieval of user roles, allowing for real-time updates. 
+The GetRole function ensures the dynamic retrieval of user roles, allowing for real-time updates.
 
 Furthermore, the AddUser function facilitates the addition of users to the system, contingent upon the availability of a valid token.
 
 #### OrganizationInstance
-The OrganizationInstance hook, nested within the OrganizationContext, orchestrates the management of diverse organizational data. 
+
+The OrganizationInstance hook, nested within the OrganizationContext, orchestrates the management of diverse organizational data.
 
 Upon component mount, it initiates data retrieval, fetching organizational details such as:
+
 - organizations
 - pipelines
 - data sources
@@ -262,25 +263,21 @@ Upon component mount, it initiates data retrieval, fetching organizational detai
 
 The hook dynamically adjusts its behavior based on changes in the active organization, ensuring up-to-date data.
 
-This hook provides a suite of functions for fundamental operations within an organization, including adding and deleting organizations, LLMs, data sources, pipelines, and tokens. 
+This hook provides a suite of functions for fundamental operations within an organization, including adding and deleting organizations, LLMs, data sources, pipelines, and tokens.
 
 #### Hook usage
 
 ##### Provider setup
 
-Ensure that the component where you intend to use the useRole hook is nested within the RoleInstance provider. 
+Ensure that the component where you intend to use the useRole hook is nested within the RoleInstance provider.
 This typically happens in your application's main file or a higher-level component.
 
 ```javascript
-import React from 'react';
+import React from "react";
 import { RoleInstance } from "hooks/roleInstance";
 
 const App = () => {
-  return (
-    <RoleInstance>
-      {/* Your components go here */}
-    </RoleInstance>
-  );
+  return <RoleInstance>{/* Your components go here */}</RoleInstance>;
 };
 ```
 
@@ -289,12 +286,12 @@ const App = () => {
 Now, within any component that is a child of RoleInstance, you can use the useRole hook.
 
 ```javascript
-import React from 'react';
-import { useRole } from 'hooks/roleInstance';
+import React from "react";
+import { useRole } from "hooks/roleInstance";
 
 const YourComponent = () => {
   const { role, roles, GetRole, AddUser } = useRole();
-  
+
   return (
     <div>
       <p>User Role: {role}</p>
