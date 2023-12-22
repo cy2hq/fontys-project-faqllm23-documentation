@@ -4,3 +4,5 @@ We have created several documents to help you understand the application that we
 
 - [Application architecture](Architecture.md)
 - [How to Deploy](Deployment.md)
+- [Frontend explanation](Front-end.md)
+- [Backend explanation](Back-end.md)

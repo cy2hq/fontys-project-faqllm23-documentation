@@ -10,7 +10,7 @@ Before setting up and running the project, ensure the following prerequisites ar
 
 - Node.js
 - npm (Node Package Manager)
-- MongoDB
+- PostgreSQL
 - SharePoint access credentials
 
 ## Getting Started
