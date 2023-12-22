@@ -262,7 +262,7 @@ This file is the root module of the application. When you add a new module, you 
 
 ### Database ERD
 
-Architecture.md contains the ERD of the database.
+[ERD](architecture.md) contains the ERD of the database.
 
 ### Configuration
 
