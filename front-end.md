@@ -306,23 +306,3 @@ const YourComponent = () => {
 The useRole hook provides access to the user role (role), an array of roles (roles), and functions like GetRole and AddUser that allow you to fetch and update role-related information.
 
 Customize your component's logic using these values and functions to create a dynamic user experience based on the user's role within the application.
-
-## Deployment
-
-### Checkout Code:
-
-Uses the actions/checkout action to fetch the latest version of the code.
-
-### Login to DockerHub:
-
-Uses the docker login command to authenticate with DockerHub using the provided DockerHub username and password secrets.
-
-### Build and Push Docker Image:
-
-Builds a Docker image using the docker build command, tagging it as $DOCKER_USERNAME/frontend:latest.
-
-Uses build arguments to pass environment variables (REACT_APP_REDIRECT_URI, REACT_APP_CLIENT_ID, REACT_APP_AUTHORITY_ID) to the Docker build process.
-
-Pushes the built Docker image to DockerHub using the docker push command.
-
-Note: The actual deployment to a server or a hosting platform is not included in this workflow.
