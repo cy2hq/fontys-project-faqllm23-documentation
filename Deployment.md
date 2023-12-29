@@ -177,14 +177,13 @@ This action does the following:
 3. **Login to DockerHub**:
    Uses the docker login command to authenticate with DockerHub using the provided DockerHub `DOCKER_USERNAME` and `DOCKER_PASSWORD` secrets.
 4. **Build and Push Docker Image**:
-   **a)**
-   A Docker image is constructed utilizing the `docker build` command, and it's labeled as `$DOCKER_USERNAME/frontend:latest`. This construction employs certain build arguments to pass needed environmental variables from the Github action secrets to the Docker build. These environment variables are:
+
+   - A Docker image is constructed utilizing the `docker build` command, and it's labeled as `$DOCKER_USERNAME/frontend:latest`. This construction employs certain build arguments to pass needed environmental variables from the Github action secrets to the Docker build. These environment variables are:
 
    1. **REACT_APP_REDIRECT_URI**
    2. **REACT_APP_CLIENT_ID**
    3. **REACT_APP_AUTHORITY_ID**
    4. **REACT_APP_BACK_END_BASE_URL**
+      You can learn about what each of these environment variables are [here](front-end.md#configuration).
 
-   You can learn about what each of these environment variables are [here](front-end.md#configuration).
-   **b)**
-   Pushes the built Docker image to DockerHub using the docker push command.
+   - Pushes the built Docker image to DockerHub using the docker push command.
