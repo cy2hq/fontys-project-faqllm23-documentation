@@ -3,7 +3,7 @@
 This is a guide on how to deploy the CY2 LLM application for both the frontend & backend. As we are based on Github all CI/CD flows are defined for Github Actions.
 
 - [Prerequisites](#prerequisites)
-- [Deployment to the backend](#deployment-of-the-backend)
+- [Deployment of the backend](#deployment-of-the-backend)
 - [Deployment of the frontend](#deployment-of-the-frontend)
 
 ## Prerequisites
