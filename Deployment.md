@@ -20,6 +20,8 @@ To deploy the application you must Create an [Azure Web App](https://portal.azur
 You can use the setup below (This step will also create the database):
 ![Azure App Service Review Page](assets/0_0_2.png)
 
+#### Azure App Service Settings
+
 Once your App is created you must set up the Application Settings (Environmental variables) and the General settings (Startup Command).
 
 In **Application Settings** you must define the environmental variables. You can learn about what each of these environment variables are [here](back-end.md#configuration).
@@ -32,7 +34,9 @@ In **General Settings** you must set the Startup Command to `node dist/src/main`
 
 ### Deployment via Github Actions
 
-In our backend application deployment using Github Actions, we are leveraging certain secrets that are crucial for its smooth operation. These secrets include:
+We utilize Github Actions for the deployment of our backend application. Azure supplies us with an Actions manifest which we adjust by eliminating some redundant steps, such as constructing of a zip file fragment but also adding a database migration application step.
+
+Significantly, deployment necessitates specific secrets that are vital for seamless functioning. These secrets are:
 
 1. **AZUREAPPSERVICE_PUBLISHPROFILE**: This is a necessary secret for publishing our application on Azure App Service. You can obtain the value for the secret by following the instructions provided [here](https://learn.microsoft.com/en-us/visualstudio/azure/how-to-get-publish-profile-from-azure-app-service?view=vs-2022).
 
