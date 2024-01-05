@@ -1,4 +1,117 @@
-# Architecture
+# System Architecture of the CY2 LLM-based FAQ System
+
+## 1. Overview
+
+The CY2 LLM-based FAQ System is designed with a focus on scalability and adaptability to meet the diverse needs of educational institutions. It supports Large Language Models (LLMs) to provide accurate, context-aware responses to user queries in various educational settings. The architecture is adaptable and scalable, enabling integration with different educational institutions' knowledge bases.
+
+## 2. Key Components and Technologies
+
+The system comprises several key components:
+
+- **Frontend Interface:** Built with Node.js, this component serves as the user interface for inputting queries and displaying responses.
+- **Backend Services:** Hosted on a Node.js server, this includes modules for authentication, document source management, and chat-bot functionalities.
+- **Database:** PostgreSQL is used for storing user information, organization data, and chat logs. 
+- **Large Language Model Integration:** The system currently integrates OpenAI's LLM for generating responses.
+- **Document Source Management:** SharePoint is utilized as the primary document source for storing FAQs and related documents.
+- **Pinecone for Vector Database:** Used for creating and managing document embeddings, enhancing information retrieval efficiency.
+
+*Note: Diagrams of the C1, C2, and C3 levels of the architecture are provided below.*
+
+
+```mermaid
+graph TB
+    student(Student) -->|Talk with| ODA[Oracle Digital Assistant]
+    sysAdmin(System Administrator) -->|Create accounts and view statistics| FAQ[FAQ System]
+    developer(Developer) -->|Manage organization settings and view statistics| FAQ
+
+     FAQ -->|Make API calls| ODA
+    FAQ -->|Make API calls| AID[Azure Entra ID]
+    FAQ -->|Make API calls| ELLM[External LLM]
+    FAQ -->|Make API calls| APSQL[Azure PostgreSQL]
+    FAQ -->|Make API calls| MGraph[Microsoft Graph]
+    FAQ -->|Make API calls| ELLM
+
+
+    classDef personal fill:#79f,stroke:#333,stroke-width:2px;
+    class student,sysAdmin,developer personal
+```
+
+```mermaid
+graph TD
+    Student -- "Makes API calls<br>(JSON/HTTP)" <--> OracleDigitalAssistant
+    OracleDigitalAssistant["Oracle Digital assistant<br>(Client Chatbot module)"] -- "Makes API calls<br>(JSON/HTTP)" <--> AzurePostgreSQL["Azure PostgreSQL<br>(Organization Database)"] 
+    OracleDigitalAssistant -- "Makes API calls<br>(JSON/HTTP)" <-->AzureEntaID["Azure Enta ID<br>(authentication service)"]
+    OracleDigitalAssistant -- "Makes API calls<br>(JSON/HTTP)" <-->  MicrosoftGraph["Microsoft Graph<br>(Software System)"] 
+    OracleDigitalAssistant -- "Makes API calls<br>(JSON/HTTP)" <-->  DocumentVectorDB["Document Vector DB<br>(Container: Vector DB)"]
+    
+    SystemAdministrator -- "Visits pages" --> FrontEnd
+    Developer -- "Visits pages" --> FrontEnd
+    FrontEnd["Front End<br>(Container: React TypeScript)"] -- "Dashboard" --> FAQSystem
+
+    FAQSystem -- "Makes API calls<br>(JSON/HTTP)" <--> AzurePostgreSQL["Azure PostgreSQL<br>(Organization Database)"] 
+    FAQSystem -->AzureEntaID["Azure Enta ID<br>(authentication service)"]
+    FAQSystem -->  MicrosoftGraph["Microsoft Graph<br>(Software System)"] 
+    FAQSystem -->  DocumentVectorDB["Document Vector DB<br>(Container: Vector DB)"]
+    DocumentVectorDB["Document Vector DB<br>(Container: Vector DB)"] <--> ExternalLLM["External LLM<br>(Software System)"]
+```
+
+
+```mermaid
+graph TB
+
+ FrontEnd[Front End<br>Front End Read TypeScript<br>Description of web browser container responsibilities] --> authController
+    FrontEnd --> orgController
+    FrontEnd --> messageController
+    FrontEnd --> docManagerController
+    oracleDigitalAssistant[Oracle Digital assistant<br>Client Chatbot module] --> messageController
+
+
+    subgraph "FAQ System [Backend]"
+        authController[Auth Controller<br>Component: NestJS] -- uses --> authService[Auth Service<br>Component: NestJS]
+        orgController[Organisation Controller<br>Component: NestJS] -- uses --> orgService[Organisation Service<br>Component: NestJS] 
+        orgService --uses --> orgDataRepo[Organisation Data Repository<br>Component: NestJS]  
+        orgController[Organisation Controller<br>Component: NestJS] -- uses --> authService
+        messageController[Organisation Controller<br>Component: NestJS] -- uses --> authService
+        docManagerController[Document Manager Controller<br>Component: NestJS]-- uses --> authService
+
+        messageController --uses--> messageService[Message Service<br>Component: NestJS]
+        messageService --uses --> LLMRepo[LLM Repository<br>Component: NestJS]
+        messageService --uses --> docManagementService[Document management Service<br>Component: NestJS]
+        docManagerController --uses--> docManagementService
+        docManagementService --uses--> docRepo[Document Repository<br>Component: NestJS] 
+        docManagementService --uses--> msGraphRepo[MS Graph Repository<br>Component: NestJS] 
+    end
+
+    subgraph "External Systems"
+        authService -- Makes API calls[JSON/HTTPS] --> azureEntraID[Azure Enta ID<br>Authentication service]
+        orgDataRepo -- Makes API calls[JSON/HTTPS] --> azurePostgreSQL[Azure PostgreSQL<br>Organisation Database] 
+        LLMRepo -- Makes API calls[JSON/HTTPS] --> externalLLM[External LLM<br>Externally peer institute Trained LLM]
+        docRepo -- Makes API calls[JSON/HTTPS] --> vectorDB[Vector DB<br>Container: Pinocchio]
+        msGraphRepo -- Makes API calls[JSON/HTTPS] --> msGraph[Microsoft Graph<br>Software System]
+    end
+```
+
+
+## 3. Authentication and Authorization
+
+- **Azure Active Directory (Azure AD):** Used for authentication and authorization, ensuring secure access across different educational institutions.
+- **Role-Based Access Control (RBAC):** Facilitates permission management based on user roles within the organization.
+
+## 4. Pipeline Architecture
+
+- **Creation and Management of Pipelines:** Enables creating pipelines that combine LLMs and document sources.
+- **Pinecone Integration:** Each pipeline has a namespace in Pinecone for storing and efficiently retrieving embeddings.
+
+## 5. Scalability and Multi-Tenancy
+We were considering two posibilities for architectural patterns, microservices and modular monolithic. After studying the client requirements we have chosen to develop a
+modular monoloth. This approach best fits the requirements, considering the project's scale, the team's size, domain complexity, and the client's necessities to distribute the system as a whole.
+The architecture supports multi-tenancy, allowing institutions to use the system with isolated data and customized configurations.
+The  modular monolith is scalable to handle an increasing number of users and queries without compromising performance.
+
+
+
+
+# DIAGRAMS
 
 ## ERD Diagram
 
