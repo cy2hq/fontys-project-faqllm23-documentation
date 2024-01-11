@@ -34,9 +34,13 @@ _Note: Diagrams of the C1, C2, and C3 levels of the architecture are provided be
 ## 5. Scalability and Multi-Tenancy
 
 We were considering two posibilities for architectural patterns, microservices and modular monolithic. After studying the client requirements we have chosen to develop a
-modular monoloth. This approach best fits the requirements, considering the project's scale, the team's size, domain complexity, and the client's necessities to distribute the system as a whole.
+modular monolith. This approach best fits the requirements, considering the project's scale, the team's size, domain complexity, and the client's necessities to distribute the system as a whole.
 The architecture supports multi-tenancy, allowing institutions to use the system with isolated data and customized configurations.
 The modular monolith is scalable to handle an increasing number of users and queries without compromising performance.
+
+## 6. Recomendations
+
+To improve the scalability and availability of the system our recomendation is to use Cloud Services. The system could be easily tranferible to clients using a terraform template.
 
 # DIAGRAMS
 
