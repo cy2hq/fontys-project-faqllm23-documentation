@@ -17,9 +17,9 @@ The system comprises several key components:
 
 _Note: Diagrams of the C1, C2, and C3 levels of the architecture are provided below._
 
-![C1](Assets/C1.png)
-![C2](Assets/C2.png)
-![C3](Assets/CY2%20C4-Final%20C3.png)
+![C1](assets/C1.png)
+![C2](assets/C2.png)
+![C3](assets/CY2%20C4-Final%20C3.png)
 
 ## 3. Authentication and Authorization
 
