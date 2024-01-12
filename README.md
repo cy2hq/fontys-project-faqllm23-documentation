@@ -6,3 +6,4 @@ We have created several documents to help you understand the application that we
 - [Frontend explanation](front-end.md)
 - [Backend explanation](back-end.md)
 - [How to Deploy](deployment.md)
+- [Recommendations & Open issues](Recommendations & Open issues.md)
