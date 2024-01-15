@@ -5,5 +5,5 @@ We have created several documents to help you understand the application that we
 - [Application architecture](Architecture.md)
 - [Frontend explanation](front-end.md)
 - [Backend explanation](back-end.md)
-- [How to Deploy](deployment.md)
+- [How to Deploy](Deployment.md)
 - [Recommendations & Open issues](Recommendations-and-open-issues.md)
