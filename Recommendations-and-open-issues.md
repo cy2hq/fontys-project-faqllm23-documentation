@@ -43,3 +43,15 @@ We propose to extract the organisation from the Azure environment and propagate 
 How we foresaw it is when we authenticate the user we receive a token, with this token we could retrieve the user's organisation and propagate this data to the backend. This idea is not implemented.
 
 As of now the user management and authentication are working, but are not ready on a production level. It is possible to continue with the current setup but it is greatly ill-advised as you will run into problems in the long run.
+
+# Data source management
+
+After setting up your chatbot and pipeline it is possible to select multiple data sources. Our project faces the issue that the data source's integrity may alter over time due to deletion, modification, or additions of data and our application does not keep track of these changes as it only recieves them once the connection is made. The idea was to create a mechanism that fetches the data over a course of time. Some datasources might have a available webhook to call to check if there is a change or perhaps a function inside the app needs to be made to check for any changes in the data source, but this would be a quite expensive and what we forsee a nonscalable solution.
+
+
+
+
+
+
+
+
