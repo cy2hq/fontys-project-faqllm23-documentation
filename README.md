@@ -7,3 +7,4 @@ We have created several documents to help you understand the application that we
 - [Backend explanation](back-end.md)
 - [How to Deploy](Deployment.md)
 - [Recommendations & Open issues](Recommendations-and-open-issues.md)
+- [How to add users in Azure](Adding-user-Azure.md)
